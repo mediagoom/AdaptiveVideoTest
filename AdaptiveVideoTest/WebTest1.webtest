@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WebTest Name="WebTest1" Id="5b21a458-8264-49c5-8abc-ab92d67132c9" Owner="" Priority="2147483647" Enabled="True" CssProjectStructure="" CssIteration="" Timeout="0" WorkItemIds="" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010" Description="" CredentialUserName="" CredentialPassword="" PreAuthenticate="True" Proxy="default" StopOnError="False" RecordedResultFile="" ResultsLocale="">
+  <Items>
+    <Request Method="GET" Guid="10d5f5bc-3512-4e47-9488-c34661ae9fbd" Version="1.1" Url="{{WebServer1}}{{WebPath}}/{{IndexFile}}" ThinkTime="0" Timeout="5" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
+      <ExtractionRules>
+        <ExtractionRule Classname="AdaptiveVideoTest.IsmExtraction, AdaptiveVideoTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" VariableName="ISM" DisplayName="IsmExtraction" Description="" />
+      </ExtractionRules>
+    </Request>
+    <Loop UniqueStringId="872b6196-06b0-4cf8-838e-9194abd8fa03">
+      <ConditionalRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.StringComparisonRule, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="String Comparison" Description="The condition is met when the provided string matches the content of the provided context parameter." MaxIterations="-1" AdvanceDataCursors="False">
+        <RuleParameters>
+          <RuleParameter Name="ContextParameterName" Value="ISMTOT" />
+          <RuleParameter Name="ComparisonOperator" Value="Not Equals" />
+          <RuleParameter Name="Value" Value="0" />
+          <RuleParameter Name="IgnoreCase" Value="True" />
+          <RuleParameter Name="UseRegularExpression" Value="False" />
+        </RuleParameters>
+      </ConditionalRule>
+      <Items>
+        <Request Method="GET" Guid="8de5d407-453d-489a-a962-008d6bd8745b" Version="1.1" Url="{{WebServer1}}{{WebPath}}/{{ISM}}" ThinkTime="0" Timeout="2" ParseDependentRequests="False" FollowRedirects="False" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="200" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
+          <ExtractionRules>
+            <ExtractionRule Classname="AdaptiveVideoTest.IsmCounter, AdaptiveVideoTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" VariableName="ISM" DisplayName="IsmCounter" Description="" />
+          </ExtractionRules>
+        </Request>
+      </Items>
+    </Loop>
+  </Items>
+  <ContextParameters>
+    <ContextParameter Name="WebServer1" Value="http://localhost" />
+    <ContextParameter Name="IndexFile" Value="index.ism" />
+    <ContextParameter Name="WebPath" Value="/Stream/webtvshare/STORAGE/aseduto@hotmail.com/SMALL_FRINGE" />
+    <ContextParameter Name="X" Value="ISM" />
+  </ContextParameters>
+</WebTest>
