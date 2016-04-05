@@ -49,9 +49,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IsmExtraction.cs" />
+    <Compile Include="MpdExtraction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="MPDTest.webtest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="WebTest1.webtest">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
