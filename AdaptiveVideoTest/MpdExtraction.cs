@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using Microsoft.VisualStudio.TestTools.WebTesting;
 using System.Xml;
+using Microsoft.VisualStudio.TestTools.WebTesting;
 
 namespace AdaptiveVideoTest
 {
     class MpdExtraction: ExtractionRule
     {
         string _ctx_name = "MPX";
+        string _prefix = "";
+        string _prefix_remove = "/index.mpd";
     
         [Obsolete]
         public override string RuleName
@@ -52,9 +55,25 @@ namespace AdaptiveVideoTest
             }
         }
 
+        [Description("PropertyDescriptionPrefix"), DisplayName("PropertyNamePrefix")]
+        public string Prefix
+        {
+            get { return _prefix; }
+            set { _prefix = value; }
+        }
+
+        [Description("PropertyDescriptionPrefixRemove"), DisplayName("PropertyNamePrefixRemove")]
+        public string PrefixRemove
+        {
+            get { return _prefix_remove; }
+            set { _prefix_remove = value; }
+        }
+
         private void Push(WebTestContext ctx,string url,int k,long b,long t)
         {
             string dest = url.Replace("$Bandwidth$",b.ToString()).Replace("$Time$",t.ToString());
+
+            dest = Prefix.Replace(PrefixRemove, "") + dest;
 
             ctx.Add(ContextParameterName + (k).ToString(),dest);
         }
