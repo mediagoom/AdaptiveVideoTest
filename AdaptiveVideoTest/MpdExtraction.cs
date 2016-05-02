@@ -69,16 +69,16 @@ namespace AdaptiveVideoTest
             set { _prefix_remove = value; }
         }
 
-        private void Push(WebTestContext ctx,string url,int k,long b,long t)
+        private void Push(List<string> container,string url,int k,long b,long t)
         {
             string dest = url.Replace("$Bandwidth$",b.ToString()).Replace("$Time$",t.ToString());
 
             dest = Prefix.Replace(PrefixRemove, "") + dest;
 
-            ctx.Add(ContextParameterName + (k).ToString(),dest);
+            container.Add(dest);
         }
 
-        private int process_stream(XmlNode st, WebTestContext ctx, int start)
+        private int process_stream(XmlNode st, List<string> container)
         {
             try
             {
@@ -136,16 +136,16 @@ namespace AdaptiveVideoTest
                     bitrates.Add(b);
                 }
 
-                int k = start;
+                int k = 0;// start;
 
                 foreach(long b in bitrates)
                 {
-                    Push(ctx, init, k++, b, 0);
+                    Push(container, init, k++, b, 0);
 
 
                     foreach(long t in times)
                     {
-                        Push(ctx, url, k++, b, t);
+                        Push(container, url, k++, b, t);
                     }
                 }
 
@@ -156,6 +156,19 @@ namespace AdaptiveVideoTest
                 throw ex;
             }
 
+        }
+
+        private int maxs(List<List<string> > streams_containers)
+        {
+            int k = 0;
+
+            foreach(List<string> s in streams_containers)
+            {
+                if(k < s.Count)
+                    k = s.Count;
+            }
+
+            return k;
         }
 
       
@@ -170,12 +183,34 @@ namespace AdaptiveVideoTest
             
             int k = 0;
 
+            List<List<string> > streams_containers = new List<List<string>>(nl.Count);
+            
+            
             foreach(XmlNode n in nl)
             {
-                k = process_stream(n, e.WebTest.Context, k);
+                int j = 0;
+
+                streams_containers.Add(new List<string>());
+
+                j = process_stream(n, streams_containers[k++]);
             }
 
-            e.WebTest.Context.Add(ContextParameterName + "TOT",k.ToString());
+            int m = maxs(streams_containers);
+
+            int idx = 0;
+
+            for(int i = 0;i < m; i++)
+            {
+                for(int h = 0 ; h < streams_containers.Count; h++)
+                {
+                    if(i < streams_containers[h].Count)
+                    {
+                        e.WebTest.Context.Add(ContextParameterName + (idx++).ToString(), streams_containers[h][i]);
+                    }
+                }
+            }
+
+                e.WebTest.Context.Add(ContextParameterName + "TOT", idx.ToString());
 
             e.WebTest.Context.Add(ContextParameterName, e.WebTest.Context[ContextParameterName + "0"]);
 

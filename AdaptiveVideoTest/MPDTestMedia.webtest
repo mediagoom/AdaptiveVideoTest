@@ -7,7 +7,7 @@
       </ExtractionRules>
     </Request>
     <Loop UniqueStringId="872b6196-06b0-4cf8-838e-9194abd8fa03">
-      <ConditionalRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.StringComparisonRule, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="String Comparison" Description="The condition is met when the provided string matches the content of the provided context parameter." MaxIterations="-1" AdvanceDataCursors="False">
+      <ConditionalRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.StringComparisonRule, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="String Comparison" Description="The condition is met when the provided string matches the content of the provided context parameter." MaxIterations="50" AdvanceDataCursors="False">
         <RuleParameters>
           <RuleParameter Name="ContextParameterName" Value="MPDTOT" />
           <RuleParameter Name="ComparisonOperator" Value="Not Equals" />
