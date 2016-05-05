@@ -62,18 +62,12 @@ namespace AdaptiveVideoTest
             set { _prefix = value; }
         }
 
-        [Description("PropertyDescriptionPrefixRemove"), DisplayName("PropertyNamePrefixRemove")]
-        public string PrefixRemove
-        {
-            get { return _prefix_remove; }
-            set { _prefix_remove = value; }
-        }
-
+        
         private void Push(List<string> container,string url,int k,long b,long t)
         {
             string dest = url.Replace("$Bandwidth$",b.ToString()).Replace("$Time$",t.ToString());
 
-            dest = Prefix.Replace(PrefixRemove, "") + dest;
+            dest = Prefix + dest;
 
             container.Add(dest);
         }
