@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WebTest Name="HLS3TestMedia" Id="a73587d5-f42c-4fc9-a544-91893e77c0c9" Owner="" Priority="2147483647" Enabled="True" CssProjectStructure="" CssIteration="" Timeout="0" WorkItemIds="" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010" Description="" CredentialUserName="" CredentialPassword="" PreAuthenticate="True" Proxy="default" StopOnError="True" RecordedResultFile="" ResultsLocale="">
   <Items>
-    <Request Method="GET" Guid="10d5f5bc-3512-4e47-9488-c34661ae9fbd" Version="1.1" Url="{{MediaDataSource.Url.full}}" ThinkTime="0" Timeout="10" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
+    <Request Method="GET" Guid="10d5f5bc-3512-4e47-9488-c34661ae9fbd" Version="1.1" Url="{{MediaDataSource.Url.prefix}}/{{IndexFile}}" ThinkTime="0" Timeout="20" ParseDependentRequests="False" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
       <ExtractionRules>
         <ExtractionRule Classname="AdaptiveVideoTest.HLS3Extraction, AdaptiveVideoTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" VariableName="MPD" DisplayName="HLS3Extraction" Description="" />
       </ExtractionRules>
@@ -34,14 +34,13 @@
             </RuleParameters>
           </ConditionalRule>
           <Items>
-            <Request Method="GET" Guid="41a87cd4-cf91-4129-8226-234263d9dbb1" Version="1.1" Url="{{MediaDataSource.Url.prefix}}/{{HLS}}" ThinkTime="0" Timeout="300" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False" >
+            <Request Method="GET" Guid="41a87cd4-cf91-4129-8226-234263d9dbb1" Version="1.1" Url="{{MediaDataSource.Url.prefix}}/{{HLS}}" ThinkTime="0" Timeout="300" ParseDependentRequests="True" FollowRedirects="True" RecordResult="True" Cache="False" ResponseTimeGoal="0" Encoding="utf-8" ExpectedHttpStatusCode="0" ExpectedResponseUrl="" ReportingName="" IgnoreHttpStatusCode="False">
               <ExtractionRules>
-            <ExtractionRule Classname="AdaptiveVideoTest.IsmCounter, AdaptiveVideoTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" VariableName="HLS" DisplayName="IsmCounter" Description="" />
-            </ExtractionRules>
+                <ExtractionRule Classname="AdaptiveVideoTest.IsmCounter, AdaptiveVideoTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" VariableName="HLS" DisplayName="IsmCounter" Description="" />
+              </ExtractionRules>
             </Request>
           </Items>
         </Loop>
-        
       </Items>
     </Loop>
   </Items>

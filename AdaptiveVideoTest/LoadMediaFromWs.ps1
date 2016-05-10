@@ -4,7 +4,9 @@ param(
       , $interactive = $true
       , $preurl      = 'http://localhost:7777/dash'
 	  , $mpd         = 'pr.mpd'
-	  , $outfile     = 'Media.xml'
+	  , $outfile     = $null
+	  , [DateTime] $mindate	 = '1/1/1899'
+	  , [DateTime] $maxdate	 = [DateTime]::Now.Add([TimeSpan]::FromDays(1))
 )
 
 $ErrorActionPreference = "Stop";
@@ -15,6 +17,17 @@ if($null -eq $asset)
 {
 	Write-Error "Asset Not Provided";
 }
+
+if($null -eq $outfile)
+{
+	$outfile = "$($my_dir)\Media.xml";
+
+}
+
+$outfile | oh
+
+if(test-path $outfile)
+	{rm $outfile}
 
 
 function time-format()
@@ -65,12 +78,33 @@ function do-asset-leg($al, $file)
 {
 	$al | oh
 
-	
-	"<!--=============$($al.ContentType)===============-->" | out-file $file -append
+	if(-Not ($al.ContentType -match '(mp4)|(h264)'))
+	{
+		"excluded: $($al.ContentType)" | oh
+		return;
+	}
 
+	
+	
 
 	$start = parse-dt $al.StartTime;
 	$end   = parse-dt $al.EndTime;
+
+
+
+	if($start -lt $mindate -and $end -lt $mindate)
+	{
+		"out-date $start [$end] - $mindate" | oh
+		return;
+	}
+
+	"<!--=============$($al.ContentType)===============-->" | out-file $file -append
+
+
+	if($start -lt $mindate)
+	{
+		$start = $mindate;
+	}
 
 	$rnd   = Get-Random -minimum 1 -maximum 241
 	$rl    = Get-Random -minimum 60 -maximum 7201
@@ -94,7 +128,7 @@ function do-asset-leg($al, $file)
 		$url = "/$($al.Name)/$($time_range)/$($al.ContentType.Replace(' ', '%20'))";
 
 		'<Url>'  | out-file $file -append
-		"	<full>$($preurl)$($url)/$mpd</full>"  | out-file $file -append
+		#"	<full>$($preurl)$($url)/$mpd</full>"  | out-file $file -append
 		"   <prefix>$($preurl)$($url)</prefix>"  | out-file $file -append
 		'</Url>'  | out-file $file -append
 		
@@ -131,16 +165,13 @@ function do-asset($asset)
 
 	$json = ConvertFrom-Json $r.Content;
 	
-	$file = "$my_dir\$outfile";
-
-	if(test-path $file)
-	{rm $file}
-
-	"<Urls>" | out-file $file -append
+	$file = "$outfile";
+	
+	
 
 	$json.AssetInfo | foreach {do-asset-leg $_ $file};
 
-	"</Urls>" | out-file $file -append
+	
 
 
 }
@@ -166,7 +197,11 @@ function main()
 
 	$json | oh
 
+	"<Urls>" | out-file $outfile -append
+	
 	$json.AssetList | foreach{do-asset $_} 
+
+	"</Urls>" | out-file $outfile -append
 }
 
 
