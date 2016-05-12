@@ -24,7 +24,7 @@
           </ExtractionRules>
         </Request>
         <Loop UniqueStringId="4e6fcbc1-6999-4e45-a690-5d648c5e55f0">
-          <ConditionalRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.StringComparisonRule, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="String Comparison" Description="The condition is met when the provided string matches the content of the provided context parameter." MaxIterations="50" AdvanceDataCursors="False">
+          <ConditionalRule Classname="Microsoft.VisualStudio.TestTools.WebTesting.Rules.StringComparisonRule, Microsoft.VisualStudio.QualityTools.WebTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DisplayName="String Comparison" Description="The condition is met when the provided string matches the content of the provided context parameter." MaxIterations="500" AdvanceDataCursors="False">
             <RuleParameters>
               <RuleParameter Name="ContextParameterName" Value="HLSTOT" />
               <RuleParameter Name="ComparisonOperator" Value="Not Equals" />

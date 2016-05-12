@@ -7,6 +7,7 @@ param(
 	  , $outfile     = $null
 	  , [DateTime] $mindate	 = '1/1/1899'
 	  , [DateTime] $maxdate	 = [DateTime]::Now.Add([TimeSpan]::FromDays(1))
+	  , [TimeSpan] $duration = [TimeSpan]::FromHours(2)
 )
 
 $ErrorActionPreference = "Stop";
@@ -106,22 +107,27 @@ function do-asset-leg($al, $file)
 		$start = $mindate;
 	}
 
+	if($end -gt $maxdate)
+	{ 
+		$end = $maxdate;
+	}
+
 	$rnd   = Get-Random -minimum 1 -maximum 241
-	$rl    = Get-Random -minimum 60 -maximum 7201
+	$rl    = Get-Random -minimum 60 -maximum ($duration.TotalSeconds)
 
 	$step  = [TimeSpan]::FromSeconds($rnd);
 	$play_len = [TimeSpan]::FromSeconds($rl);
 
 	$len   = $end.Subtract($start);
 
-	
-
 	while($start -lt $end)
 	{
 		$play_end = $start.Add($play_len);
-
+		
 		if($end -lt $play_end)
 		{  $play_end = $end;}
+
+		#"$start $play_end $end $maxdata" | oh
 
 		$time_range = "$(to-dt $start)/$(to-dt $play_end)";
 
@@ -137,10 +143,10 @@ function do-asset-leg($al, $file)
 		$start = $start.Add($step);
 
 		$rnd   = Get-Random -minimum 1 -maximum 241
-		$rl    = Get-Random -minimum 60 -maximum 7201
+		$rl    = Get-Random -minimum 60 -maximum ($duration.TotalSeconds)
 
 		$step	  = [TimeSpan]::FromSeconds($rnd);
-		$play_len = [TimeSpan]::FromMinutes($rl);
+		$play_len = [TimeSpan]::FromSeconds($rl);
 	}
 
 
